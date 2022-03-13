@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserShema = mongoose.Schema({
+export default mongoose.Schema({
   _id: Number,
   name: String,
   telegram_id: String,
@@ -8,7 +8,6 @@ const UserShema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-
   records: [
     {
       date: String,
@@ -20,5 +19,3 @@ const UserShema = mongoose.Schema({
     },
   ],
 });
-
-export default UserShema;

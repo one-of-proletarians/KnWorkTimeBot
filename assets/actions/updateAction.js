@@ -3,7 +3,6 @@ export default function useUpdateAction() {
     await ctx.answerCbQuery();
     const msg_id = ctx.update.callback_query.message.message_id;
     const action = ctx.update.callback_query.data;
-    console.log(ctx.update.callback_query.data);
 
     await ctx.deleteMessage(msg_id);
     await ctx.deleteMessage(msg_id - 1);

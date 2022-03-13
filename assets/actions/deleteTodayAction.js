@@ -9,11 +9,10 @@ export default function useDeleteTodayAction() {
     const [action, day] = ctx.update.callback_query.data
       .split("|")
       .map((e, i) => (i ? +e : e));
-    console.log(action);
+
     if (action === "del-t-d") {
       const date = createDate({ day });
 
-      console.log(date);
       const res = await User.updateOne(
         {
           _id,
