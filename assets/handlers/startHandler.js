@@ -1,4 +1,6 @@
-export default function useStart(User) {
+import { User } from "../../mongo/mongo.js";
+
+export default function useStart() {
   return (ctx) => {
     const {
       id: _id,

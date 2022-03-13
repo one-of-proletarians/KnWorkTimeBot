@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export default new mongoose.Schema({
+const UserShema = mongoose.Schema({
   _id: Number,
   name: String,
   telegram_id: String,
@@ -20,3 +20,5 @@ export default new mongoose.Schema({
     },
   ],
 });
+
+export default UserShema;

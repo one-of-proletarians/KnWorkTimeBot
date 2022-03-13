@@ -1,6 +1,7 @@
 import { createDate, daysPerMonth } from "../helpers.js";
+import { User } from "../../mongo/mongo.js";
 
-export default function useDeleteToday(User) {
+export default function useDeleteToday() {
   return async (ctx) => {
     const days = daysPerMonth();
     const _id = ctx.message.from.id;

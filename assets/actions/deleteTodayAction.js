@@ -1,6 +1,7 @@
 import { createDate } from "../helpers.js";
+import { User } from "../../mongo/mongo.js";
 
-export default function useDeleteTodayAction(User) {
+export default function useDeleteTodayAction() {
   return async (ctx) => {
     await ctx.answerCbQuery();
     const msg_id = ctx.update.callback_query.message.message_id;

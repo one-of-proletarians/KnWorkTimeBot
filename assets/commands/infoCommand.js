@@ -1,5 +1,6 @@
 import Table from "easy-table";
 import months from "../months.js";
+import { User } from "../../mongo/mongo.js";
 
 function getWeekDay(date) {
   const [day, month, year] = date.split(".").map((e) => +e);
@@ -7,7 +8,7 @@ function getWeekDay(date) {
   return days[new Date(year, month - 1, day).getDay()];
 }
 
-export default function useInfoCommand(User) {
+export default function useInfoCommand() {
   return async (ctx) => {
     const date = new Date().toLocaleDateString("ru", {
       month: "2-digit",
