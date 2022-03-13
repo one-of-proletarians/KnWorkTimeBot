@@ -2,13 +2,6 @@ import { Telegraf } from "telegraf";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import UserSchema from "./models/User.js";
-import {
-  createDate,
-  daysPerMonth,
-  time,
-  timeInterval,
-  wordFormat,
-} from "./assets/helpers.js";
 
 import useStart from "./assets/handlers/startHandler.js";
 
@@ -20,16 +13,24 @@ import useDeleteTodayAction from "./assets/actions/deleteTodayAction.js";
 import { timeRegExp, dayAndTimeRegExp } from "./assets/regexp.js";
 import useHelp from "./assets/commands/helpCommand.js";
 
-const dev = process.env.NODE_ENV === "development";
+import {
+  createDate,
+  daysPerMonth,
+  time,
+  timeInterval,
+  wordFormat,
+} from "./assets/helpers.js";
 
+config();
+
+const dev = process.env.NODE_ENV === "development";
 const telegramToken = dev ? process.env.DEV_BOT_TOKEN : process.env.BOT_TOKEN;
 const mongoConnect = dev ? process.env.DEV_MONGO : process.env.MONGO;
 
-config();
 main();
 
 async function main() {
-  const mongo = await mongoose.createConnection(mongoConnect);
+  const mongo = mongoose.createConnection(mongoConnect);
   const User = mongo.model("User", UserSchema);
   const bot = new Telegraf(telegramToken);
 
