@@ -2,6 +2,7 @@ import { Scenes, Markup } from "telegraf";
 import { deleteTodayParse, isToday, stringToDate } from "../assets/helpers.js";
 import { User } from "../mongo/mongo.js";
 
+/**Сцена для удаления записей */
 export const removeRecordScene = new Scenes.WizardScene(
   "removeRecord",
   async (ctx) => {
