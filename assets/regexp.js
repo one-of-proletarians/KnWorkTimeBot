@@ -5,4 +5,4 @@ export const timeRegExp = "(7|11|15|19|23)(\\-|\\s)(7|11|15|19|23)";
 export const dayAndTimeRegExp = `\\d{1,2} ${timeRegExp}`;
 export const dateAndTimeRegExp = `\\d{1,2}\\.${dayAndTimeRegExp}`;
 export const deleteAllRegExp = /Удалить вс(е|ё)/i;
-export const deleteRecordRegExp = /del\s\d{1,2}/i;
+export const deleteRecordRegExp = /^del\s*\d{1,2}((\.|,)\d{1,2})?$/i;

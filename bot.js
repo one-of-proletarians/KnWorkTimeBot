@@ -1,13 +1,12 @@
-import { Telegraf } from "telegraf";
+import { Telegraf, Scenes, session } from "telegraf";
 import { config } from "dotenv";
-import { User } from "./mongo/mongo.js";
 
 import useHelp from "./assets/commands/helpCommand.js";
 import useStart from "./assets/handlers/startHandler.js";
+import useDeleteAll from "./assets/handlers/deleteAll.js";
 import useInfoCommand from "./assets/commands/infoCommand.js";
-import useDeleteToday from "./assets/commands/deleteToday.js";
-import useDeleteTodayAction from "./assets/actions/deleteTodayAction.js";
 import { saveOrUpdate } from "./assets/handlers/saveOrUpdate.js";
+import { removeRecordScene } from "./Scenes/removeRecordScene.js";
 
 import {
   timeRegExp,
@@ -22,7 +21,6 @@ import {
   daysPerMonth,
   timeInterval,
 } from "./assets/helpers.js";
-import useDeleteAll from "./assets/handlers/deleteAll.js";
 
 config();
 
@@ -32,12 +30,15 @@ const telegramToken = isDev()
 
 const bot = new Telegraf(telegramToken);
 
+bot.use(session());
+bot.use(new Scenes.Stage([removeRecordScene]));
+
+bot.hears(deleteRecordRegExp, Scenes.Stage.enter("removeRecord"));
+
 bot.start(useStart());
 bot.help(useHelp());
-bot.command("monthstatistic", useInfoCommand());
-bot.command("deletetoday", useDeleteToday());
-bot.hears(deleteRecordRegExp, useDeleteToday());
-bot.action([/del-t-d\|\d{1,2}/, "del-t-c"], useDeleteTodayAction());
+bot.command(["monthstatistic", "s"], useInfoCommand());
+bot.command(["deletetoday", "d"], Scenes.Stage.enter("removeRecord"));
 
 bot.hears(new RegExp(`^${dayAndTimeRegExp}$`), (ctx) => {
   const days = daysPerMonth();
