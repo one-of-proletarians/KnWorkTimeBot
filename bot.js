@@ -60,7 +60,14 @@ bot.hears(new RegExp(`^${timeRegExp}$`), (ctx) => {
   saveOrUpdate(ctx, timeInterval(ctx.match.input));
 });
 
+bot.hears(/./, removeAllMessages);
+bot.on("sticker", removeAllMessages);
+bot.on("document", removeAllMessages);
 bot.launch();
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
+
+function removeAllMessages(ctx) {
+  ctx.deleteMessage();
+}
