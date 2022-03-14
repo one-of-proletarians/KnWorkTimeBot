@@ -2,11 +2,19 @@ import { config } from "dotenv";
 
 config();
 
+/**
+ *
+ * @param {Number} start начало смены
+ * @param {Number} end конец смены
+ * @returns Количество часов от start до end
+ */
 export const time = (start, end) =>
   end < start ? 24 - start + end : end - start;
 
+/**Сегодняшняя дата */
 export const today = () => new Date().toLocaleDateString("ru");
 
+/**Склонение слов */
 export const wordFormat = (num, word) => {
   const cases = [2, 0, 1, 1, 1, 2];
   return word[
@@ -14,12 +22,14 @@ export const wordFormat = (num, word) => {
   ];
 };
 
+/** Почти то же самое что strToArr */
 export const timeInterval = (raw) =>
   raw
     .replace(/\s|\-/g, "*")
     .split("*")
     .map((e) => +e);
 
+/**Разбивает строку по разделителю: , - _ . */
 export const strToArr = (str) =>
   str
     .trim()
@@ -27,6 +37,10 @@ export const strToArr = (str) =>
     .split(".")
     .map((e) => +e);
 
+/**
+ @param 1 - 12
+ @returns Количество дней
+ */
 export const daysPerMonth = (month) => {
   const date = new Date();
   return new Date(
@@ -35,9 +49,10 @@ export const daysPerMonth = (month) => {
     0
   ).getDate();
 };
-
+/** Проверяет запущен ли проект в режиме разработки */
 export const isDev = () => process.env.NODE_ENV === "development";
 
+/**!! Это надо отрефакторить */
 export const createDate = (raw) => {
   const date = new Date();
 
@@ -50,6 +65,7 @@ export const createDate = (raw) => {
   ).toLocaleDateString("ru");
 };
 
+/**@param Строка в виде '03.02.2022' */
 export const stringToDate = (rawData) => {
   const [_, cMonth, cYear] = strToArr(new Date().toLocaleDateString("ru"));
   const [day, m] = strToArr(rawData);
@@ -61,8 +77,15 @@ export const stringToDate = (rawData) => {
     : new Date(cYear, month - 1, day).toLocaleDateString("ru");
 };
 
+/**
+ * @param Команда для удаления сегодняшней записи
+ * @returns Текущая дата
+ */
 export const deleteTodayParse = (raw) => {
   return raw === "/d" || raw === "/deletetoday" ? today() : null;
 };
 
+/**
+ * @param {String} date 01.01.2022
+ */
 export const isToday = (date) => date === today();
