@@ -16,11 +16,8 @@ import {
 
 import { isDev } from "./assets/helpers.js";
 import useAddRecord from "./assets/handlers/addRecord.js";
-import useTimeParser from "./middlewares/useTimeParser.js";
-import useOnlyTime from "./middlewares/useOnlyTime.js";
 import useInitialState from "./middlewares/useInitialState.js";
 import useSetToday from "./middlewares/useSetToday.js";
-import useMonthsList from "./assets/handlers/useMonthsList.js";
 
 const telegramToken = isDev()
   ? process.env.DEV_BOT_TOKEN
@@ -32,8 +29,6 @@ bot.use(session());
 bot.use(new Scenes.Stage([removeRecordScene]));
 bot.use(useInitialState());
 bot.use(useSetToday());
-bot.use(useOnlyTime());
-bot.use(useTimeParser());
 
 bot.hears(deleteRecordRegExp, Scenes.Stage.enter("removeRecord"));
 
@@ -44,7 +39,6 @@ bot.command(["deletetoday", "d"], Scenes.Stage.enter("removeRecord"));
 
 bot.hears([dateAndTimeRegExp, timeRegExp], useAddRecord());
 bot.hears(deleteAllRegExp, useDeleteAll());
-bot.hears("list", useMonthsList());
 
 bot.hears(/./, removeAllMessages);
 bot.on("sticker", removeAllMessages);
