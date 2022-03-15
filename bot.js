@@ -5,22 +5,22 @@ import useHelp from "./assets/commands/helpCommand.js";
 import useStart from "./assets/handlers/startHandler.js";
 import useDeleteAll from "./assets/handlers/deleteAll.js";
 import useInfoCommand from "./assets/commands/infoCommand.js";
-import { saveOrUpdate } from "./assets/handlers/saveOrUpdate.js";
 import { removeRecordScene } from "./Scenes/removeRecordScene.js";
 
 import {
   timeRegExp,
-  dayAndTimeRegExp,
   deleteAllRegExp,
   deleteRecordRegExp,
+  dateAndTimeRegExp,
 } from "./assets/regexp.js";
 
-import {
-  isDev,
-  createDate,
-  daysPerMonth,
-  timeInterval,
-} from "./assets/helpers.js";
+import { isDev } from "./assets/helpers.js";
+import useAddRecord from "./assets/handlers/addRecord.js";
+import useTimeParser from "./middlewares/useTimeParser.js";
+import useOnlyTime from "./middlewares/useOnlyTime.js";
+import useInitialState from "./middlewares/useInitialState.js";
+import useSetToday from "./middlewares/useSetToday.js";
+import useMonthsList from "./assets/handlers/useMonthsList.js";
 
 config();
 
@@ -32,6 +32,10 @@ const bot = new Telegraf(telegramToken);
 
 bot.use(session());
 bot.use(new Scenes.Stage([removeRecordScene]));
+bot.use(useInitialState());
+bot.use(useSetToday());
+bot.use(useOnlyTime());
+bot.use(useTimeParser());
 
 bot.hears(deleteRecordRegExp, Scenes.Stage.enter("removeRecord"));
 
@@ -40,25 +44,9 @@ bot.help(useHelp());
 bot.command(["monthstatistic", "s"], useInfoCommand());
 bot.command(["deletetoday", "d"], Scenes.Stage.enter("removeRecord"));
 
-bot.hears(new RegExp(`^${dayAndTimeRegExp}$`), (ctx) => {
-  const days = daysPerMonth();
-  const input = ctx.match.input.replace(/\s/, "*");
-  const [day, dateString] = input.split("*").map((e, i) => (!i ? +e : e));
-  const period = timeInterval(dateString);
-
-  if (day > days || day < 1)
-    return ctx.replyWithHTML(
-      `<b>Ошибка.</b>\nВведите день в формате 1 - ${days}`
-    );
-
-  const date = createDate({ day });
-  saveOrUpdate(ctx, period, date);
-});
-
+bot.hears([dateAndTimeRegExp, timeRegExp], useAddRecord());
 bot.hears(deleteAllRegExp, useDeleteAll());
-bot.hears(new RegExp(`^${timeRegExp}$`), (ctx) => {
-  saveOrUpdate(ctx, timeInterval(ctx.match.input));
-});
+bot.hears("list", useMonthsList());
 
 bot.hears(/./, removeAllMessages);
 bot.on("sticker", removeAllMessages);
