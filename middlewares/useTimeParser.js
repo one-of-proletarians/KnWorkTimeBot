@@ -1,6 +1,7 @@
 import { stringToDate, strToArr } from "../assets/helpers.js";
 
 export default () => (ctx, next) => {
+  if (!ctx.message) return next();
   const { onlyTime } = ctx.session.state;
 
   let text = ctx.message.text.replace(/\s+/g, " ");
