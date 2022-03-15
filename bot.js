@@ -16,8 +16,8 @@ import {
 
 import { isDev } from "./assets/helpers.js";
 import useAddRecord from "./assets/handlers/addRecord.js";
-import useInitialState from "./middlewares/useInitialState.js";
-import useSetToday from "./middlewares/useSetToday.js";
+import useState from "./middlewares/useState.js";
+import useToday from "./middlewares/useToday.js";
 
 const telegramToken = isDev()
   ? process.env.DEV_BOT_TOKEN
@@ -27,8 +27,8 @@ const bot = new Telegraf(telegramToken);
 
 bot.use(session());
 bot.use(new Scenes.Stage([removeRecordScene]));
-bot.use(useInitialState());
-bot.use(useSetToday());
+bot.use(useState());
+bot.use(useToday());
 
 bot.hears(deleteRecordRegExp, Scenes.Stage.enter("removeRecord"));
 
