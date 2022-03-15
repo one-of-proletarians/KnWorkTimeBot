@@ -1,6 +1,12 @@
 import { time, wordFormat } from "../helpers.js";
 import { User } from "../../mongo/mongo.js";
 
+/**
+ *
+ * @param {Telegraf<Context>} ctx Telegraf Context
+ * @param {[number]} period Начало и конец смены
+ * @param {?Date} date Дата смены
+ */
 export const saveOrUpdate = async (ctx, period, date) => {
   date = date ?? new Date().toLocaleDateString("ru");
 
