@@ -25,9 +25,6 @@
     "url": "https://github.com/gaunter-odm/KnWorkTimeBot/issues"
   },
   "homepage": "https://github.com/gaunter-odm/KnWorkTimeBot#readme",
-  "engines": {
-    "node": "14.9.0"
-  },
   "dependencies": {
     "dotenv": "^16.0.0",
     "easy-table": "^1.2.0",
