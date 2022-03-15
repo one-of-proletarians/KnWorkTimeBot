@@ -1,5 +1,5 @@
 import { Telegraf, Scenes, session } from "telegraf";
-import { config } from "dotenv";
+// import { config } from "dotenv";
 
 import useHelp from "./assets/commands/helpCommand.js";
 import useStart from "./assets/handlers/startHandler.js";
@@ -22,7 +22,7 @@ import useInitialState from "./middlewares/useInitialState.js";
 import useSetToday from "./middlewares/useSetToday.js";
 import useMonthsList from "./assets/handlers/useMonthsList.js";
 
-config();
+// config();
 
 const telegramToken = isDev()
   ? process.env.DEV_BOT_TOKEN
