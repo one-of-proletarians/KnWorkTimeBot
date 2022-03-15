@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+import mongoose from "mongoose";
 import { isDev } from "../assets/helpers.js";
 import UserShema from "./schemas/UserSchema.js";
 
