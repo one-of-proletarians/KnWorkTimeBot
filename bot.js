@@ -1,5 +1,4 @@
 import { Telegraf, Scenes, session } from "telegraf";
-import "dotenv/config";
 
 import useHelp from "./assets/commands/helpCommand.js";
 import useStart from "./assets/handlers/startHandler.js";
@@ -14,7 +13,7 @@ import {
   dateAndTimeRegExp,
 } from "./assets/regexp.js";
 
-import { isDev } from "./assets/helpers.js";
+import { isDev, removeAllMessages } from "./assets/helpers.js";
 import useAddRecord from "./assets/handlers/addRecord.js";
 import useState from "./middlewares/useState.js";
 import useToday from "./middlewares/useToday.js";
@@ -30,15 +29,14 @@ bot.use(new Scenes.Stage([removeRecordScene]));
 bot.use(useState());
 bot.use(useToday());
 
-bot.hears(deleteRecordRegExp, Scenes.Stage.enter("removeRecord"));
-
 bot.start(useStart());
 bot.help(useHelp());
 bot.command(["monthstatistic", "s"], useInfoCommand());
 bot.command(["deletetoday", "d"], Scenes.Stage.enter("removeRecord"));
 
-bot.hears([dateAndTimeRegExp, timeRegExp], useAddRecord());
 bot.hears(deleteAllRegExp, useDeleteAll());
+bot.hears([dateAndTimeRegExp, timeRegExp], useAddRecord());
+bot.hears(deleteRecordRegExp, Scenes.Stage.enter("removeRecord"));
 
 bot.hears(/./, removeAllMessages);
 bot.on("sticker", removeAllMessages);
@@ -47,7 +45,3 @@ bot.launch();
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
-
-function removeAllMessages(ctx) {
-  ctx.deleteMessage();
-}
