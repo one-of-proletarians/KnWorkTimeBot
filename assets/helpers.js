@@ -91,3 +91,9 @@ export const deleteTodayParse = (raw) => {
  * @param {String} date 01.01.2022
  */
 export const isToday = (date) => date === today();
+
+/**
+ *
+ * @param {Telegraf<Context>} ctx
+ */
+export const removeAllMessages = (ctx) => ctx.deleteMessage();
