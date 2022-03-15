@@ -29,13 +29,17 @@ export const timeInterval = (raw) =>
     .split("*")
     .map((e) => +e);
 
-/**Разбивает строку по разделителю: , - _ . */
-export const strToArr = (str) =>
-  str
-    .trim()
-    .replace(/,|-|_/g, ".")
-    .split(".")
-    .map((e) => +e);
+/**
+ *
+ * @param {String} str Исходная строка
+ * @param {String} separator Сепаратор
+ * @param {Boolean} toNumber Приводить к числу или нет
+ * @returns Массив
+ */
+export const strToArr = (str, separator = ".", toNumber = true) => {
+  const result = str.trim().replace(/,|-|_/g, ".").split(separator);
+  return toNumber ? result.map((e) => +e) : result;
+};
 
 /**
  @param 1 - 12
