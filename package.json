@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node bot.js",
-    "dev": "NODE_ENV=development nodemon bot.js"
+    "dev": "NODE_ENV=development nodemon bot.js",
+    "prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
