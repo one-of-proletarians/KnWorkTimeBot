@@ -1,5 +1,5 @@
-import { time, wordFormat } from "../helpers.js";
-import { User } from "../../mongo/mongo.js";
+import { time, wordFormat } from '../helpers.js';
+import { User } from '../../mongo/mongo.js';
 
 /**
  *
@@ -8,21 +8,21 @@ import { User } from "../../mongo/mongo.js";
  * @param {?Date} date Дата смены
  */
 export const saveOrUpdate = async (ctx, period, date) => {
-  date = date ?? new Date().toLocaleDateString("ru");
+  date = date ?? new Date().toLocaleDateString('ru');
 
   const id = ctx.message.from.id;
-  const declensionTime = ["часов", "часа", "часов"];
+  const declensionTime = ['часов', 'часа', 'часов'];
 
-  let statusMsg = "<b>Добавлено</b>";
+  let statusMsg = '<b>Добавлено</b>';
 
   const [start, end] = period;
 
   let amount = time(start, end);
 
-  if (amount < 4) return ctx.replyWithHTML("<b>Ошибка.</b>\nМинимум 4 часа");
+  if (amount < 4) return ctx.replyWithHTML('<b>Ошибка.</b>\nМинимум 4 часа');
 
   const user = await User.findById(id);
-  const index = user.records.findIndex((elem) => elem.date === date);
+  const index = user.records.findIndex(elem => elem.date === date);
 
   const value = {
     start,
@@ -37,7 +37,7 @@ export const saveOrUpdate = async (ctx, period, date) => {
     });
   else {
     user.records[index].value = value;
-    statusMsg = "<b>Обновлено</b>";
+    statusMsg = '<b>Обновлено</b>';
   }
 
   await user.save();
@@ -46,6 +46,6 @@ export const saveOrUpdate = async (ctx, period, date) => {
   ctx.replyWithHTML(
     `<b><i>Дата: ${date}</i></b>
 		${start}:00 - ${end}:00
-		<b>${amount}</b> ${wordFormat(amount, declensionTime)}`.replace(/\t/g, "")
+		<b>${amount}</b> ${wordFormat(amount, declensionTime)}`.replace(/\t/g, '')
   );
 };

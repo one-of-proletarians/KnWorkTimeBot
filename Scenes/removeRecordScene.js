@@ -1,19 +1,19 @@
-import { Scenes, Markup } from "telegraf";
-import { deleteTodayParse, isToday, stringToDate } from "../assets/helpers.js";
-import { User } from "../mongo/mongo.js";
+import { Scenes, Markup } from 'telegraf';
+import { deleteTodayParse, isToday, stringToDate } from '../assets/helpers.js';
+import { User } from '../mongo/mongo.js';
 
 /**Сцена для удаления записей */
 export const removeRecordScene = new Scenes.WizardScene(
-  "removeRecord",
-  async (ctx) => {
+  'removeRecord',
+  async ctx => {
     const text = ctx.message.text.trim();
-    const input = text.replace(/del\s*/i, "");
+    const input = text.replace(/del\s*/i, '');
     const _id = ctx.message.from.id;
     const date = deleteTodayParse(text) ?? stringToDate(input);
-    const dateMessage = isToday(date) ? "Сегодня" : date;
+    const dateMessage = isToday(date) ? 'Сегодня' : date;
 
     if (!date) {
-      ctx.reply("Не корректная дата.");
+      ctx.reply('Не корректная дата.');
       return ctx.scene.leave();
     }
 
@@ -30,14 +30,14 @@ export const removeRecordScene = new Scenes.WizardScene(
     return ctx.replyWithHTML(
       `Удалить запись за: <b>${dateMessage}</b>`,
       Markup.inlineKeyboard([
-        Markup.button.callback("Удалить", "delete"),
-        Markup.button.callback("Отмена", "cancel"),
+        Markup.button.callback('Удалить', 'delete'),
+        Markup.button.callback('Отмена', 'cancel'),
       ])
     );
   }
 );
 
-removeRecordScene.action("delete", async (ctx) => {
+removeRecordScene.action('delete', async ctx => {
   const _id = ctx.from.id;
   const { date, dateMessage } = ctx.wizard.state;
   const { modifiedCount: result } = await User.updateOne(
@@ -51,7 +51,7 @@ removeRecordScene.action("delete", async (ctx) => {
   return ctx.scene.leave();
 });
 
-removeRecordScene.action("cancel", (ctx) => {
+removeRecordScene.action('cancel', ctx => {
   ctx.deleteMessage();
   return ctx.scene.leave();
 });

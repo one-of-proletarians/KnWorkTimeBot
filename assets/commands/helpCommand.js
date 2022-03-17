@@ -1,5 +1,5 @@
 export default function useHelp() {
-  return (ctx) =>
+  return ctx =>
     ctx.replyWithHTML(
       `
 		<b>7 19</b> или <b>7-19</b> - Добавить запись для текущей даты
@@ -18,7 +18,7 @@ export default function useHelp() {
 		    <b>Удалить всё</b>
 
 		<a href="https://github.com/gaunter-odm/KnWorkTimeBot#readme">Страница с описанием</a>
-		`.replace(/\t/g, ""),
+		`.replace(/\t/g, ''),
       {
         disable_web_page_preview: true,
       }

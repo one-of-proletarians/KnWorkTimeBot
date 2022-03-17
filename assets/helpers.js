@@ -1,4 +1,4 @@
-import "dotenv/config";
+import 'dotenv/config';
 
 /**
  *
@@ -10,7 +10,7 @@ export const time = (start, end) =>
   end < start ? 24 - start + end : end - start;
 
 /**Сегодняшняя дата */
-export const today = () => new Date().toLocaleDateString("ru");
+export const today = () => new Date().toLocaleDateString('ru');
 
 /**Склонение слов */
 export const wordFormat = (num, word) => {
@@ -21,11 +21,11 @@ export const wordFormat = (num, word) => {
 };
 
 /** Почти то же самое что strToArr */
-export const timeInterval = (raw) =>
+export const timeInterval = raw =>
   raw
-    .replace(/\s|\-/g, "*")
-    .split("*")
-    .map((e) => +e);
+    .replace(/\s|\-/g, '*')
+    .split('*')
+    .map(e => +e);
 
 /**
  *
@@ -34,16 +34,16 @@ export const timeInterval = (raw) =>
  * @param {Boolean} toNumber Приводить к числу или нет
  * @returns Массив
  */
-export const strToArr = (str, separator = ".", toNumber = true) => {
-  const result = str.trim().replace(/,|-|_/g, ".").split(separator);
-  return toNumber ? result.map((e) => +e) : result;
+export const strToArr = (str, separator = '.', toNumber = true) => {
+  const result = str.trim().replace(/,|-|_/g, '.').split(separator);
+  return toNumber ? result.map(e => +e) : result;
 };
 
 /**
  @param 1 - 12
  @returns Количество дней
  */
-export const daysPerMonth = (month) => {
+export const daysPerMonth = month => {
   const date = new Date();
   return new Date(
     date.getFullYear(),
@@ -52,48 +52,48 @@ export const daysPerMonth = (month) => {
   ).getDate();
 };
 /** Проверяет запущен ли проект в режиме разработки */
-export const isDev = () => process.env.NODE_ENV === "development";
+export const isDev = () => process.env.NODE_ENV === 'development';
 
 /**!! Это надо отрефакторить */
-export const createDate = (raw) => {
+export const createDate = raw => {
   const date = new Date();
 
-  if (!raw.day) return date.toLocaleDateString("ru");
+  if (!raw.day) return date.toLocaleDateString('ru');
 
   return new Date(
     date.getFullYear(),
     date.getMonth(),
     raw.day
-  ).toLocaleDateString("ru");
+  ).toLocaleDateString('ru');
 };
 
 /**@param Строка в виде '03.02.2022' */
-export const stringToDate = (rawData) => {
-  const [_, cMonth, cYear] = strToArr(new Date().toLocaleDateString("ru"));
+export const stringToDate = rawData => {
+  const [_, cMonth, cYear] = strToArr(new Date().toLocaleDateString('ru'));
   const [day, m] = strToArr(rawData);
   const month = m ?? cMonth;
   const days = daysPerMonth(month);
 
   return day < 1 || day > days || month < 1 || month > 12
     ? null
-    : new Date(cYear, month - 1, day).toLocaleDateString("ru");
+    : new Date(cYear, month - 1, day).toLocaleDateString('ru');
 };
 
 /**
  * @param Команда для удаления сегодняшней записи
  * @returns Текущая дата
  */
-export const deleteTodayParse = (raw) => {
-  return raw === "/d" || raw === "/deletetoday" ? today() : null;
+export const deleteTodayParse = raw => {
+  return raw === '/d' || raw === '/deletetoday' ? today() : null;
 };
 
 /**
  * @param {String} date 01.01.2022
  */
-export const isToday = (date) => date === today();
+export const isToday = date => date === today();
 
 /**
  *
  * @param {Telegraf<Context>} ctx
  */
-export const removeAllMessages = (ctx) => ctx.deleteMessage();
+export const removeAllMessages = ctx => ctx.deleteMessage();
