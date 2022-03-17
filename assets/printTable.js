@@ -3,9 +3,9 @@ import months from './months.js';
 
 /**
  *
- * @param {Telegraf<Context>} ctx Контекст Телеграфа
+ * @param {Context} ctx Контекст Телеграфа
  * @param {Date} date Дата в виде строки
- * @param {Array<UserRecord>} records Массив записей
+ * @param {Array<UserScheme>} records Массив записей
  */
 
 export const printTable = async (ctx, date, records) => {

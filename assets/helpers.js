@@ -94,6 +94,6 @@ export const isToday = date => date === today();
 
 /**
  *
- * @param {Telegraf<Context>} ctx
+ * @param {Context} ctx
  */
 export const removeAllMessages = ctx => ctx.deleteMessage();

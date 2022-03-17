@@ -3,7 +3,7 @@ import { User } from '../../mongo/mongo.js';
 
 /**
  *
- * @param {Telegraf<Context>} ctx Telegraf Context
+ * @param {Context} ctx Telegraf Context
  * @param {[number]} period Начало и конец смены
  * @param {?Date} date Дата смены
  */
