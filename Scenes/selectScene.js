@@ -31,7 +31,7 @@ async function setState(ctx) {
   localState.id = id;
   localState.records = records;
 
-  if (yKeyboard && yKeyboard.length > 1) {
+  if (yKeyboard) {
     const keyboard = makeKeyboard([...yKeyboard, 'Отмена']);
 
     await ctx.reply('Выберите год: 📆', keyboard);
