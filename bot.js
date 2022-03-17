@@ -1,4 +1,4 @@
-import { Telegraf, Scenes, session } from 'telegraf';
+import { Telegraf, Scenes, session} from 'telegraf';
 import './settings.js';
 
 import useHelp from './assets/commands/helpCommand.js';
@@ -33,13 +33,13 @@ bot.use(useToday());
 
 bot.start(useStart());
 bot.help(useHelp());
-bot.command(['monthstatistic', 's'], useInfoCommand());
-bot.command(['deletetoday', 'd'], Scenes.Stage.enter('removeRecord'));
+bot.command('cm', useInfoCommand());
+bot.command('dt', Scenes.Stage.enter('removeRecord'));
+bot.command('sd', Scenes.Stage.enter('selectScene'));
 
 bot.hears(deleteAllRegExp, useDeleteAll());
 bot.hears([dateAndTimeRegExp, timeRegExp], useAddRecord());
 bot.hears(deleteRecordRegExp, Scenes.Stage.enter('removeRecord'));
-bot.hears('a', Scenes.Stage.enter('selectScene'));
 
 bot.hears(/./, removeAllMessages);
 bot.on('sticker', removeAllMessages);
