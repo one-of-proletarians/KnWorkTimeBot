@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { Markup } from 'telegraf';
 
 /**
  *
@@ -88,7 +89,7 @@ export const stringToDate = rawData => {
  * @returns {string|null}
  */
 export const deleteTodayParse = raw => {
-  return raw === '/d' || raw === '/deletetoday' ? today() : null;
+  return raw === '/dt' || raw === '/deletetoday' ? today() : null;
 };
 
 /**
@@ -100,3 +101,31 @@ export const isToday = date => date === today();
  * @param {Context} ctx
  */
 export const removeAllMessages = ctx => ctx.deleteMessage();
+
+/**
+ * @param {Array<string|number>} buttonText
+ * @param {number}cols
+ * @returns {Markup<ReplyKeyboardMarkup>}
+ */
+export const makeKeyboard = (buttonText, cols = 3) => {
+  const len = buttonText.length;
+  cols = cols <= len ? cols : len;
+
+  let count = 0;
+  let buttons = [];
+  let col = [];
+
+  for (const text of buttonText) {
+    buttons.push(Markup.button.text(text));
+
+    if (++count === cols) {
+      col.push(buttons);
+      buttons = [];
+      count = 0;
+    }
+  }
+
+  if (buttons.length) col.push(buttons);
+
+  return Markup.keyboard(col).resize();
+};
