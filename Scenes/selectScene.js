@@ -31,11 +31,13 @@ async function setState(ctx) {
   localState.id = id;
   localState.records = records;
 
-  if (yKeyboard) {
-    const keyboard = makeKeyboard([...yKeyboard, 'Отмена']);
-
-    await ctx.reply('Выберите год: 📆', keyboard);
+  if (!yKeyboard.length) {
+    await ctx.reply('Записи отсутствуют.');
+    return ctx.scene.leave();
   }
+
+  const keyboard = makeKeyboard([...yKeyboard, 'Отмена']);
+  await ctx.reply('Выберите год: 📆', keyboard);
   return ctx.wizard.next();
 }
 
