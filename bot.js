@@ -1,10 +1,12 @@
 import { Telegraf, Scenes, session } from "telegraf";
+import "./settings.js";
 
 import useHelp from "./assets/commands/helpCommand.js";
 import useStart from "./assets/handlers/startHandler.js";
 import useDeleteAll from "./assets/handlers/deleteAll.js";
 import useInfoCommand from "./assets/commands/infoCommand.js";
 import { removeRecordScene } from "./Scenes/removeRecordScene.js";
+import { selectScene } from "./Scenes/selectScene.js";
 
 import {
   timeRegExp,
@@ -25,7 +27,7 @@ const telegramToken = isDev()
 const bot = new Telegraf(telegramToken);
 
 bot.use(session());
-bot.use(new Scenes.Stage([removeRecordScene]));
+bot.use(new Scenes.Stage([removeRecordScene, selectScene]));
 bot.use(useState());
 bot.use(useToday());
 
@@ -37,6 +39,7 @@ bot.command(["deletetoday", "d"], Scenes.Stage.enter("removeRecord"));
 bot.hears(deleteAllRegExp, useDeleteAll());
 bot.hears([dateAndTimeRegExp, timeRegExp], useAddRecord());
 bot.hears(deleteRecordRegExp, Scenes.Stage.enter("removeRecord"));
+bot.hears("a", Scenes.Stage.enter("selectScene"));
 
 bot.hears(/./, removeAllMessages);
 bot.on("sticker", removeAllMessages);
