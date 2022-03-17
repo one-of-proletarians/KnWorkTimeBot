@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-export default mongoose.Schema({
+export const UserScheme = new mongoose.Schema({
   _id: Number,
   name: String,
   telegram_id: String,
@@ -19,3 +19,8 @@ export default mongoose.Schema({
     },
   ],
 });
+
+UserScheme.statics.getRecords = async function (id) {
+  const user = await this.findById(id);
+  return user.records;
+};
