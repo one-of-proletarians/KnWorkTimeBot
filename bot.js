@@ -1,4 +1,4 @@
-import { Telegraf, Scenes, session} from 'telegraf';
+import { Telegraf, Scenes, session } from 'telegraf';
 import './settings.js';
 
 import useHelp from './assets/commands/helpCommand.js';
