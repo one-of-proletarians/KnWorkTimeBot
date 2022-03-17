@@ -23,7 +23,7 @@ export const wordFormat = (num, word) => {
 /** Почти то же самое что strToArr */
 export const timeInterval = raw =>
   raw
-    .replace(/\s|\-/g, '*')
+    .replace(/\s|-/g, '*')
     .split('*')
     .map(e => +e);
 
@@ -32,7 +32,7 @@ export const timeInterval = raw =>
  * @param {String} str Исходная строка
  * @param {String} separator Сепаратор
  * @param {Boolean} toNumber Приводить к числу или нет
- * @returns Массив
+ * @returns number[]|string[]
  */
 export const strToArr = (str, separator = '.', toNumber = true) => {
   const result = str.trim().replace(/,|-|_/g, '.').split(separator);
@@ -40,8 +40,9 @@ export const strToArr = (str, separator = '.', toNumber = true) => {
 };
 
 /**
- @param 1 - 12
- @returns Количество дней
+ * Последний день месяца
+ * @param month
+ * @returns {number}
  */
 export const daysPerMonth = month => {
   const date = new Date();
@@ -67,7 +68,10 @@ export const createDate = raw => {
   ).toLocaleDateString('ru');
 };
 
-/**@param Строка в виде '03.02.2022' */
+/**
+ * @param rawData dd.mm.yyyy
+ * @returns {null|string}
+ */
 export const stringToDate = rawData => {
   const [_, cMonth, cYear] = strToArr(new Date().toLocaleDateString('ru'));
   const [day, m] = strToArr(rawData);
@@ -80,8 +84,8 @@ export const stringToDate = rawData => {
 };
 
 /**
- * @param Команда для удаления сегодняшней записи
- * @returns Текущая дата
+ * @param raw
+ * @returns {string|null}
  */
 export const deleteTodayParse = raw => {
   return raw === '/d' || raw === '/deletetoday' ? today() : null;
@@ -93,7 +97,6 @@ export const deleteTodayParse = raw => {
 export const isToday = date => date === today();
 
 /**
- *
  * @param {Context} ctx
  */
 export const removeAllMessages = ctx => ctx.deleteMessage();

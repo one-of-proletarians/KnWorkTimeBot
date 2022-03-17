@@ -17,7 +17,6 @@ export default function useInfoCommand() {
         $elemMatch: { date: { $regex: new RegExp(`\\d{2}\\.${date}`) } },
       },
     });
-
     const [month, year] = date.split('.');
 
     if (user) {
