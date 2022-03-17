@@ -2,29 +2,25 @@ import Table from 'easy-table';
 import months from './months.js';
 
 /**
- *
- * @param {Context} ctx Контекст Телеграфа
- * @param {Date} date Дата в виде строки
- * @param {Array<UserScheme>} records Массив записей
+ * @param {Context} ctx
+ * @param {Array<UserScheme>} records
+ * @returns {Promise<Message.TextMessage|ReturnType<Telegram[string]>>}
  */
 
-export const printTable = async (ctx, date, records) => {
-  const [month, year] = date.split('.').map(e => +e);
-  const reg = new RegExp(`\\d{2}\\.${date}`);
+export const printTable = async (ctx, records) => {
   const t = new Table();
 
-  records.forEach(e => {
-    if (!reg.test(e.date)) return;
-    const { start, end } = e.value;
+  for (const record of records) {
+    const { start, end } = record.value;
 
     const period = `${start}:00 - ${end}:00`.replace('7', ' 7');
 
-    t.cell('День', getWeekDay(e.date));
-    t.cell('Дата', +e.date.substring(0, 2));
+    t.cell('День', getWeekDay(record.date));
+    t.cell('Дата', +record.date.substring(0, 2));
     t.cell('Смена', period);
-    t.cell('Часы', e.value.amount, Table.number());
+    t.cell('Часы', record.value.amount, Table.number());
     t.newRow();
-  });
+  }
 
   t.sort(['Дата|asc']);
   t.total('Дата', {
@@ -33,8 +29,7 @@ export const printTable = async (ctx, date, records) => {
   });
   t.total('Часы');
 
-  await ctx.replyWithHTML(`<b><i>${year} ${months[month - 1]}</i></b>`);
-  ctx.replyWithHTML(`<pre>${t}</pre>`);
+  return await ctx.replyWithHTML(`<pre>${t}</pre>`);
 };
 
 /**
