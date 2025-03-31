@@ -5,7 +5,9 @@
   "main": "bot.js",
   "type": "module",
   "scripts": {
-    "start": "node bot.js",
+    "start": "pm2 start \"bun bot.js\" --name warger-worktime-bot",
+    "stop": "pm2 stop warger-worktime-bot && pm2 delete warger-worktime-bot",
+    "list": "pm2 list",
     "dev": "NODE_ENV=development nodemon bot.js",
     "prettier": "prettier --write ."
   },
@@ -29,6 +31,7 @@
     "dotenv": "^16.0.0",
     "easy-table": "^1.2.0",
     "mongoose": "^6.2.6",
+    "pm2": "^6.0.5",
     "telegraf": "^4.7.0"
   },
   "devDependencies": {
